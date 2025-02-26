@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Swapiverse</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .signup-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .signup-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .signup-header {
+            background: #2563eb;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .signup-body {
+            padding: 2rem;
+        }
+
+        .skill-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            background: #e5e7eb;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag.selected {
+            background: #2563eb;
+            color: white;
+        }
+
+        .verification-section {
+            display: none;
+            text-align: center;
+        }
+
+        .verification-inputs {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .verification-input {
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-size: 1.25rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+        }
+
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .signup-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: none;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <h3 class="mb-0">Create Your Account</h3>
+                <p class="mb-0">Join Swapiverse and start learning</p>
+            </div>
+            <div class="signup-body">
+                <form id="signupForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Full Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" placeholder="Email address" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="Password" required>
+                    </div>
+
+                    <div class="skill-section">
+                        <h6 class="mb-2">Skills you can teach:</h6>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Web Development</span>
+                            <span class="skill-tag">Graphic Design</span>
+                            <span class="skill-tag">Photography</span>
+                            <span class="skill-tag">Music</span>
+                            <span class="skill-tag">Languages</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-section">
+                        <h6 class="mb-2">Skills you want to learn:</h6>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Digital Marketing</span>
+                            <span class="skill-tag">Video Editing</span>
+                            <span class="skill-tag">Cooking</span>
+                            <span class="skill-tag">Public Speaking</span>
+                            <span class="skill-tag">Writing</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="signup-btn">Create Account</button>
+
+                    <div class="verification-section" id="verificationSection">
+                        <h5 class="mb-2">Verify Your Email</h5>
+                        <p class="text-muted">We've sent a code to your email</p>
+                        <div class="verification-inputs">
+                            <input type="text" maxlength="1" class="verification-input" required>
+                            <input type="text" maxlength="1" class="verification-input" required>
+                            <input type="text" maxlength="1" class="verification-input" required>
+                            <input type="text" maxlength="1" class="verification-input" required>
+                        </div>
+                        <button type="button" class="signup-btn">Verify</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="mb-0">Already have an account? <a href="login.html" class="text-blue-600 text-decoration-none">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                tag.classList.toggle('selected');
+            });
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('verificationSection').style.display = 'block';
+        });
+
+        const verificationInputs = document.querySelectorAll('.verification-input');
+        verificationInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value && index < verificationInputs.length - 1) {
+                    verificationInputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    verificationInputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

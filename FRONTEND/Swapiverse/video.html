@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swapiverse - Video Session</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #6C63FF, #3B82F6);
+            --danger-gradient: linear-gradient(45deg, #EF4444, #DC2626);
+        }
+
+        body {
+            background: #1a1a1a;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: white;
+        }
+
+        .video-container {
+            aspect-ratio: 16/9;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #2a2a2a;
+            position: relative;
+        }
+
+        #localVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .control-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .control-btn.danger {
+            background: var(--danger-gradient);
+        }
+
+        .timer {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 1.1em;
+        }
+
+        .chat-container {
+            background: #2a2a2a;
+            border-radius: 20px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: #333;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .chat-input input {
+            background: #444;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+        }
+
+        .tools-container {
+            background: #2a2a2a;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .tool-btn {
+            background: #333;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .tool-btn:hover {
+            background: #444;
+        }
+
+        .whiteboard-container {
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            margin-top: 15px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        #whiteboard {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+    </style>
+</head>
+<body class="py-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="video-container mb-4">
+                    <video id="localVideo" autoplay playsinline muted></video>
+                    <div class="timer">
+                        <i class="fas fa-clock me-2"></i>54:32
+                    </div>
+                    <div class="control-bar">
+                        <button class="control-btn" id="muteBtn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="control-btn" id="videoBtn">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button class="control-btn">
+                            <i class="fas fa-desktop"></i>
+                        </button>
+                        <button class="control-btn danger">
+                            <i class="fas fa-phone-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tools-container">
+                    <div class="d-flex mb-3">
+                        <button class="tool-btn" id="drawBtn">
+                            <i class="fas fa-pen me-2"></i>Draw
+                        </button>
+                        <button class="tool-btn" id="eraseBtn">
+                            <i class="fas fa-eraser me-2"></i>Erase
+                        </button>
+                    </div>
+                    <div class="whiteboard-container">
+                        <canvas id="whiteboard"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="chat-container">
+                    <div class="chat-messages">
+                        <div class="text-muted text-center">
+                            <i class="fas fa-comments mb-2"></i>
+                            <p>Chat messages will appear here</p>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" class="form-control" placeholder="Type your message...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: true, 
+                    audio: true 
+                });
+                document.getElementById('localVideo').srcObject = stream;
+
+                document.getElementById('muteBtn').addEventListener('click', () => {
+                    const audioTracks = stream.getAudioTracks();
+                    audioTracks.forEach(track => track.enabled = !track.enabled);
+                });
+
+                document.getElementById('videoBtn').addEventListener('click', () => {
+                    const videoTracks = stream.getVideoTracks();
+                    videoTracks.forEach(track => track.enabled = !track.enabled);
+                });
+
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                alert('Please allow camera access to use this feature');
+            }
+        }
+        window.addEventListener('load', initCamera);
+
+        const canvas = document.getElementById("whiteboard");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+
+        let drawing = false;
+        let eraseMode = false;
+
+        function startDrawing(e) {
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+            ctx.lineWidth = eraseMode ? 20 : 3;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = eraseMode ? "#ffffff" : "#000";
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            drawing = false;
+            ctx.beginPath();
+        }
+
+        canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stopDrawing);
+
+        document.getElementById("eraseBtn").addEventListener("click", () => eraseMode = !eraseMode);
+    </script>
+</body>
+</html>

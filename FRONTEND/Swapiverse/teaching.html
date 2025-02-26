@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swapiverse - Modern Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --primary-gradient: linear-gradient(45deg, #6C63FF, #3B82F6);
+            --success-gradient: linear-gradient(45deg, #10B981, #059669);
+            --danger-gradient: linear-gradient(45deg, #EF4444, #DC2626);
+            --warning-gradient: linear-gradient(45deg, #F59E0B, #D97706);
+            --purple-gradient: linear-gradient(45deg, #8B5CF6, #7C3AED);
+        }
+
+        body {
+            background: #F3F4F6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        #sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            transition: all 0.3s;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .nav-link {
+            padding: 15px 25px;
+            color: #4B5563;
+            border-radius: 12px;
+            margin: 5px 15px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: #F3F4F6;
+            color: #6C63FF;
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+        
+        #content {
+            width: calc(100% - var(--sidebar-width));
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+            padding: 25px;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 15px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 10px;
+            width: 300px;
+        }
+        
+        .stat-card {
+            border-radius: 20px;
+            border: none;
+            padding: 25px;
+            background: white;
+            transition: all 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+        }
+        
+        .session-card {
+            background: white;
+            border-radius: 20px;
+            border: none;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .session-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+        
+        .badge-custom {
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1F2937;
+        }
+        
+        .notification-bubble {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .notification-bubble:hover {
+            background: #F3F4F6;
+        }
+        
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            border-radius: 8px;
+            padding: 2px 8px;
+            font-size: 0.8em;
+        }
+        
+        .btn-gradient {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        
+        .btn-gradient:hover {
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: calc(-1 * var(--sidebar-width));
+            }
+            
+            #content {
+                width: 100%;
+                margin-left: 0;
+            }
+            
+            .show-sidebar #sidebar {
+                margin-left: 0;
+            }
+        }
+        :root {
+            --primary-gradient: linear-gradient(45deg, #6C63FF, #3B82F6);
+            --success-gradient: linear-gradient(45deg, #10B981, #059669);
+            --warning-gradient: linear-gradient(45deg, #F59E0B, #D97706);
+        }
+
+        body {
+            background: #F3F4F6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .dashboard-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .stats-card {
+            background: #F9FAFB;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 1px solid #E5E7EB;
+        }
+
+        .stats-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3B82F6;
+        }
+
+        .session-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s;
+        }
+
+        .session-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .student-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+        .status-confirmed {
+            background: #D1FAE5;
+            color: #059669;
+        }
+
+        .status-completed {
+            background: #E0E7FF;
+            color: #4F46E5;
+        }
+
+        .btn-gradient {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn-gradient:hover {
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            color: white;
+        }
+
+        .skill-badge {
+            background: #F3F4F6;
+            color: #4B5563;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-right: 8px;
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary-gradient);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4 class="mb-0"><i class="fas fa-sync-alt me-2"></i>Swapiverse</h4>
+            </div>
+
+            <div class="py-4">
+                <a href="dashboard.html" class="nav-link ">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+                <a href="shedule.html" class="nav-link">
+                    <i class="fas fa-graduation-cap"></i>My Learning
+                </a>
+                <a href="teaching.html" class="nav-link active">
+                    <i class="fas fa-chalkboard-teacher"></i>Teaching
+                </a>
+                <a href="search.html" class="nav-link">
+                    <i class="fas fa-users"></i>Community
+                </a>
+                <a href="achievement.html" class="nav-link">
+                    <i class="fas fa-trophy"></i>Achievements
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user-alt"></i>Profile
+                </a>
+            </div>
+        </nav>
+
+        
+        <div id="content">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="search-box">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <input type="text" placeholder="Search skills, courses...">
+                </div>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-bubble">
+                        <i class="fas fa-bell text-muted"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    <img src="Asset/img/user.jpg" class="profile-image" alt="Profile">
+                </div>
+            </div>
+
+            
+            
+            <div class="row">
+                <div class="container">
+                    <div class="dashboard-container">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4>Teaching Dashboard</h4>
+                            <div class="d-flex gap-2">
+                                <button class="btn-gradient">
+                                    <i class="fas fa-calendar me-2"></i>Calendar View
+                                </button>
+                                <button class="btn-gradient">
+                                    <i class="fas fa-sliders me-2"></i>Settings
+                                </button>
+                            </div>
+                        </div>
+            
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number">5</div>
+                                    <div class="text-muted">Upcoming Sessions</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number">127</div>
+                                    <div class="text-muted">Total Sessions</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number">4.9</div>
+                                    <div class="text-muted">Average Rating</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number">98%</div>
+                                    <div class="text-muted">Completion Rate</div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <ul class="nav nav-pills mb-4">
+                            <li class="nav-item">
+                                <button class="nav-link active">Upcoming</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link">Pending</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link">Completed</button>
+                            </li>
+                        </ul>
+            
+                        <div class="session-card">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img src="Asset/img/user.jp" class="student-image" alt="Sarah">
+                                </div>
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="mb-1">Python Basics with Sarah Johnson</h5>
+                                            <div class="mb-2">
+                                                <span class="skill-badge">Python</span>
+                                                <span class="skill-badge">Beginner Level</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-2"></i>Today, 3:00 PM
+                                                <i class="fas fa-clock ms-3 me-2"></i>60 minutes
+                                                <i class="fas fa-video ms-3 me-2"></i>Video Session
+                                            </small>
+                                        </div>
+                                        <span class="status-badge status-confirmed">Confirmed</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn-gradient">Start Session</button>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="session-card">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img src="Asset/img/user.jp" class="student-image" alt="Mike">
+                                </div>
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="mb-1">React Fundamentals with Mike Williams</h5>
+                                            <div class="mb-2">
+                                                <span class="skill-badge">React</span>
+                                                <span class="skill-badge">Intermediate Level</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-2"></i>Tomorrow, 2:00 PM
+                                                <i class="fas fa-clock ms-3 me-2"></i>90 minutes
+                                                <i class="fas fa-video ms-3 me-2"></i>Video Session
+                                            </small>
+                                        </div>
+                                        <span class="status-badge status-pending">Pending</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn-gradient">Confirm Session</button>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="session-card">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img src="Asset/img/user.jp" class="student-image" alt="Emma">
+                                </div>
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="mb-1">Data Structures with Emma Davis</h5>
+                                            <div class="mb-2">
+                                                <span class="skill-badge">Data Structures</span>
+                                                <span class="skill-badge">Advanced Level</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-2"></i>Feb 15, 4:00 PM
+                                                <i class="fas fa-clock ms-3 me-2"></i>120 minutes
+                                                <i class="fas fa-message ms-3 me-2"></i>Text Chat
+                                            </small>
+                                        </div>
+                                        <span class="status-badge status-completed">Completed</span>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn-gradient">View Summary</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const startSessionButtons = document.querySelectorAll(".btn-gradient");
+
+            startSessionButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    if (confirm("Are you ready to start the session?")) {
+                        window.open("video.html", "_blank");
+                    }
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

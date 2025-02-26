@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swapiverse - Request Session</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(45deg, #6C63FF, #3B82F6);
+            --success-gradient: linear-gradient(45deg, #10B981, #059669);
+        }
+
+        body {
+            background: #F3F4F6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .session-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .trust-score {
+            background: var(--success-gradient);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .verified-badge {
+            color: #059669;
+            font-size: 0.9em;
+        }
+
+        .time-slot {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .time-slot:hover {
+            border-color: #6C63FF;
+        }
+
+        .time-slot.selected {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .btn-gradient {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-gradient:hover {
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            color: white;
+        }
+
+        .session-type {
+            border: 2px solid #E5E7EB;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .session-type:hover {
+            border-color: #6C63FF;
+        }
+
+        .session-type.selected {
+            border-color: #6C63FF;
+            background: rgba(108, 99, 255, 0.05);
+        }
+
+        .free-badge {
+            background: var(--success-gradient);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="py-4">
+    <div class="container">
+        <div class="session-container">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h4 class="mb-4">Request Session with</h4>
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <img src="Asset/img/user.jpg" class="profile-image" alt="John">
+                        <div>
+                            <h5 class="mb-1">
+                                John Doe 
+                                <i class="fas fa-check-circle verified-badge ms-2"></i>
+                            </h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="trust-score">
+                                    <i class="fas fa-star me-1"></i>4.9
+                                </span>
+                                <span class="free-badge">
+                                    <i class="fas fa-gift me-1"></i>Free Session
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="mb-3">Choose Session Type</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="session-type selected">
+                                <h6><i class="fas fa-video me-2"></i>Video Session</h6>
+                                <p class="text-muted mb-0">Face-to-face interaction via video call</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="session-type">
+                                <h6><i class="fas fa-message me-2"></i>Text Chat</h6>
+                                <p class="text-muted mb-0">Chat-based learning session</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mb-3">Select Date</h5>
+                    <input type="date" class="form-control mb-4">
+
+                    <h5 class="mb-3">Available Time Slots</h5>
+                    <div class="d-flex flex-wrap mb-4">
+                        <div class="time-slot selected">9:00 AM</div>
+                        <div class="time-slot">10:00 AM</div>
+                        <div class="time-slot">11:00 AM</div>
+                        <div class="time-slot">2:00 PM</div>
+                        <div class="time-slot">3:00 PM</div>
+                        <div class="time-slot">4:00 PM</div>
+                    </div>
+
+                    <h5 class="mb-3">Session Details</h5>
+                    <div class="mb-3">
+                        <label class="form-label">What do you want to learn?</label>
+                        <textarea class="form-control" rows="3" placeholder="Describe what you'd like to focus on in this session..."></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Your current skill level</label>
+                        <select class="form-select">
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-gradient">
+                        <i class="fas fa-calendar-check me-2"></i>Confirm Session Request
+                    </button>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card p-4" style="border-radius: 15px;">
+                        <h5 class="mb-4">Session Summary</h5>
+                        <div class="mb-3">
+                            <div class="text-muted mb-1">Date</div>
+                            <div>Wed, Feb 12, 2025</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-muted mb-1">Time</div>
+                            <div>9:00 AM (60 minutes)</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-muted mb-1">Session Type</div>
+                            <div>Video Session</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-muted mb-1">Duration</div>
+                            <div>60 minutes</div>
+                        </div>
+                        <hr>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-gift me-2 text-success"></i>
+                            <div class="text-success fw-bold">Free Skill Exchange Session</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

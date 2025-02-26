@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning - Swapiverse</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --primary-gradient: linear-gradient(45deg, #6C63FF, #3B82F6);
+            --success-gradient: linear-gradient(45deg, #10B981, #059669);
+            --danger-gradient: linear-gradient(45deg, #EF4444, #DC2626);
+            --warning-gradient: linear-gradient(45deg, #F59E0B, #D97706);
+            --purple-gradient: linear-gradient(45deg, #8B5CF6, #7C3AED);
+        }
+
+        body {
+            background: #F3F4F6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            transition: all 0.3s;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .nav-link {
+            padding: 15px 25px;
+            color: #4B5563;
+            border-radius: 12px;
+            margin: 5px 15px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #F3F4F6;
+            color: #6C63FF;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+
+        #content {
+            width: calc(100% - var(--sidebar-width));
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+            padding: 25px;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 15px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 10px;
+            width: 300px;
+        }
+
+        .learning-card {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .learning-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .course-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        .btn-attend {
+            background: var(--success-gradient);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn-attend:hover {
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+
+        .btn-upcoming {
+            background: #F3F4F6;
+            color: #4B5563;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+        }
+
+        .progress-bar {
+            background: var(--primary-gradient);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1F2937;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 8px 20px;
+            border-radius: 12px;
+            color: #4B5563;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: calc(-1 * var(--sidebar-width));
+            }
+            
+            #content {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4 class="mb-0"><i class="fas fa-sync-alt me-2"></i>Swapiverse</h4>
+            </div>
+
+            <div class="py-4">
+                <a href="dashboard.html" class="nav-link ">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+                <a href="shedule.html" class="nav-link active">
+                    <i class="fas fa-graduation-cap"></i>My Learning
+                </a>
+                <a href="teaching.html" class="nav-link">
+                    <i class="fas fa-chalkboard-teacher"></i>Teaching
+                </a>
+                <a href="search.html" class="nav-link">
+                    <i class="fas fa-users"></i>Community
+                </a>
+                <a href="achievement.html" class="nav-link">
+                    <i class="fas fa-trophy"></i>Achievements
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user-alt"></i>Profile
+                </a>
+            </div>
+        </nav>
+
+        
+        <div id="content">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="search-box">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <input type="text" placeholder="Search your courses...">
+                </div>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-bubble">
+                        <i class="fas fa-bell text-muted"></i>
+                        <span class="notification-count">2</span>
+                    </div>
+                    <img src="/api/placeholder/50/50" class="profile-image" alt="Profile">
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 mb-4">
+                <button class="filter-btn active">All Courses</button>
+                <button class="filter-btn">In Progress</button>
+                <button class="filter-btn">Completed</button>
+                <button class="filter-btn">Upcoming</button>
+            </div>
+
+            <h5 class="section-title">Today's Learning Schedule</h5>
+            
+            <div class="learning-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-4">
+                            <img src="Asset/img/js.png" class="course-image" alt="Course">
+                            <div>
+                                <h5 class="mb-2">Advanced JavaScript Concepts</h5>
+                                <p class="mb-2 text-muted">with Sarah Johnson • 10:00 AM - 11:30 AM</p>
+                                <div class="progress" style="height: 8px; width: 200px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-attend" onclick="attendClass(1)">
+                            <i class="fas fa-video me-2"></i>Attend Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="learning-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-4">
+                            <img src="Asset/img/ui.png" class="course-image" alt="Course">
+                            <div>
+                                <h5 class="mb-2">UI/UX Design Principles</h5>
+                                <p class="mb-2 text-muted">with Mike Anderson • 2:00 PM - 3:30 PM</p>
+                                <div class="progress" style="height: 8px; width: 200px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-upcoming" disabled>
+                            <i class="fas fa-clock me-2"></i>Upcoming
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="learning-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-4">
+                            <img src="Asset/img/react.png" class="course-image" alt="Course">
+                            <div>
+                                <h5 class="mb-2">React Native Development</h5>
+                                <p class="mb-2 text-muted">with David Lee • 4:00 PM - 5:30 PM</p>
+                                <div class="progress" style="height: 8px; width: 200px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 30%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-upcoming" disabled>
+                            <i class="fas fa-clock me-2"></i>Upcoming
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function attendClass(courseId) {
+            alert('Joining virtual classroom...');
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+            });
+        });
+    </script>
+    <script>
+        function attendClass(courseId) {
+            if (confirm("Joining virtual classroom...")) {
+                window.open("video.html", "_blank");
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>
